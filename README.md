@@ -1,84 +1,24 @@
-libinput
-========
+# 🛠️ Build and Installation Guide (Arch Linux Focus)
+This guide details how to compile your custom libinput source code and install it onto your system, replacing the official version.
 
-libinput is a library that provides a full input stack for display servers
-and other applications that need to handle input devices provided by the
-kernel.
+## Prerequisites
+Ensure you have the necessary tools for cloning and compiling:
 
-libinput provides device detection, event handling and abstraction to
-minimize the amount of custom input code the user of libinput needs to
-provide the common set of functionality that users expect. Input event
-processing includes scaling touch coordinates, generating
-relative pointer events from touchpads, pointer acceleration, etc.
+*sudo pacman -S base-devel git meson*
 
-User documentation
-------------------
+## 1. Building and Compiling the Project
+Navigate to your repository directory and use meson to compile the modified source code. To build and compile:
 
-Documentation explaining features available in libinput is available
-[here](https://wayland.freedesktop.org/libinput/doc/latest/features.html).
+*meson setup builddir* 
 
-This includes the [FAQ](https://wayland.freedesktop.org/libinput/doc/latest/faqs.html)
-and the instructions on
-[reporting bugs](https://wayland.freedesktop.org/libinput/doc/latest/reporting-bugs.html).
+*meson compile -C builddir*
 
+## 2. Install to the System
+This step overwrites the official libinput library with your custom version. The compiled binary is located at your builddir.
 
-Source code
------------
+*sudo cp -v [Path/To/Your/Binary/libinput.so.10.x.x] /usr/lib/libinput.so.10.x.x*
 
-The source code of libinput can be found at:
-https://gitlab.freedesktop.org/libinput/libinput
+## 3. Finalize and Test
+You must restart your session or system for the changes to take effect, as the Wayland compositor loads libinput on startup.
 
-For a list of current and past releases visit:
-https://www.freedesktop.org/wiki/Software/libinput/
-
-Build instructions:
-https://wayland.freedesktop.org/libinput/doc/latest/building.html
-
-Reporting Bugs
---------------
-
-Bugs can be filed on freedesktop.org GitLab:
-https://gitlab.freedesktop.org/libinput/libinput/issues/
-
-Where possible, please provide the `libinput record` output
-of the input device and/or the event sequence in question.
-
-See https://wayland.freedesktop.org/libinput/doc/latest/reporting-bugs.html
-for more info.
-
-Documentation
--------------
-
-- Developer API documentation: https://wayland.freedesktop.org/libinput/doc/latest/development.html
-- High-level documentation about libinput's features:
-  https://wayland.freedesktop.org/libinput/doc/latest/features.html
-- Build instructions:
-  https://wayland.freedesktop.org/libinput/doc/latest/building.html
-- Documentation for previous versions of libinput: https://wayland.freedesktop.org/libinput/doc/
-
-Examples of how to use libinput are the debugging tools in the libinput
-repository. Developers are encouraged to look at those tools for a
-real-world (yet simple) example on how to use libinput.
-
-- A commandline debugging tool: https://gitlab.freedesktop.org/libinput/libinput/tree/main/tools/libinput-debug-events.c
-- A GTK application that draws cursor/touch/tablet positions: https://gitlab.freedesktop.org/libinput/libinput/tree/main/tools/libinput-debug-gui.c
-
-License
--------
-
-libinput is licensed under the MIT license.
-
-> Permission is hereby granted, free of charge, to any person obtaining a
-> copy of this software and associated documentation files (the "Software"),
-> to deal in the Software without restriction, including without limitation
-> the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> and/or sell copies of the Software, and to permit persons to whom the
-> Software is furnished to do so, subject to the following conditions: [...]
-
-See the [COPYING](https://gitlab.freedesktop.org/libinput/libinput/tree/main/COPYING)
-file for the full license information.
-
-About
------
-
-Documentation generated from git commit [__GIT_VERSION__](https://gitlab.freedesktop.org/libinput/libinput/commit/__GIT_VERSION__)
+Note: For the complete and most responsible documentation on GitHub, you should include a clear Warning & Backup section and a Rollback Guide using the TTY, as replacing core system libraries carries a risk.
