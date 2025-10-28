@@ -798,30 +798,37 @@ tp_touch_active_for_gesture(const struct tp_dispatch *tp, const struct tp_touch 
 static inline bool
 tp_palm_was_in_side_edge(const struct tp_dispatch *tp, const struct tp_touch *t)
 {
-	// return t->palm.first.x < tp->palm.left_edge || t->palm.first.x > tp->palm.right_edge;
-	return false;
+	return t->palm.first.x < tp->palm.left_edge || t->palm.first.x > tp->palm.right_edge;
 }
 
 static inline bool
 tp_palm_was_in_top_edge(const struct tp_dispatch *tp, const struct tp_touch *t)
 {
-	// return t->palm.first.y < tp->palm.upper_edge;
-	return false;
+	return t->palm.first.y < tp->palm.upper_edge;
+}
+
+static inline bool
+tp_palm_in_top_edge(const struct tp_dispatch *tp, const struct tp_touch *t)
+{
+	return t->point.y < tp->palm.upper_edge;
+}
+
+static inline bool
+tp_palm_in_side_edge(const struct tp_dispatch *tp, const struct tp_touch *t)
+{
+	return t->point.x < tp->palm.left_edge ||
+	       t->point.x > tp->palm.right_edge;
 }
 
 static inline bool
 tp_palm_in_edge(const struct tp_dispatch *tp, const struct tp_touch *t)
 {
-	// return tp_palm_in_side_edge(tp, t) || tp_palm_in_top_edge(tp, t);
-
-	return false;
+	return tp_palm_in_side_edge(tp, t) || tp_palm_in_top_edge(tp, t);
 }
 
 static bool
 tp_palm_detect_dwt_triggered(struct tp_dispatch *tp, struct tp_touch *t, uint64_t time)
 {
-	return false; // always disabled
-
 	if (tp->dwt.dwt_enabled && tp->dwt.keyboard_active && t->state == TOUCH_BEGIN) {
 		t->palm.state = PALM_TYPING;
 		t->palm.first = t->point;
@@ -854,9 +861,6 @@ tp_palm_detect_trackpoint_triggered(struct tp_dispatch *tp,
 				    struct tp_touch *t,
 				    uint64_t time)
 {
-
-	return false;
-
 	if (!tp->palm.monitor_trackpoint)
 		return false;
 
@@ -885,8 +889,6 @@ tp_palm_detect_trackpoint_triggered(struct tp_dispatch *tp,
 static bool
 tp_palm_detect_tool_triggered(struct tp_dispatch *tp, struct tp_touch *t, uint64_t time)
 {
-	return false;
-	
 	if (!tp->palm.use_mt_tool)
 		return false;
 
@@ -984,9 +986,6 @@ tp_palm_detect_touch_size_triggered(struct tp_dispatch *tp,
 static inline bool
 tp_palm_detect_edge(struct tp_dispatch *tp, struct tp_touch *t, uint64_t time)
 {
-
-	return false;
-
 	if (t->palm.state == PALM_EDGE) {
 		if (tp_palm_detect_multifinger(tp, t, time)) {
 			t->palm.state = PALM_NONE;
@@ -1034,7 +1033,6 @@ tp_palm_detect_pressure_triggered(struct tp_dispatch *tp,
 				  struct tp_touch *t,
 				  uint64_t time)
 {
-	return false;
 	if (!tp->palm.use_pressure)
 		return false;
 
@@ -1063,7 +1061,12 @@ tp_palm_detect_arbitration_triggered(struct tp_dispatch *tp,
 static void
 tp_palm_detect(struct tp_dispatch *tp, struct tp_touch *t, uint64_t time)
 {
-	return;
+	if (!tp->device->base.config.palm_config)
+        return; 
+
+    if (tp->device->base.config.palm_config->disabled)
+        return;
+
 	const char *palm_state;
 	enum touch_palm_state oldstate = t->palm.state;
 

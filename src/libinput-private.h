@@ -493,6 +493,13 @@ struct libinput_device_config_gesture {
 		struct libinput_device *device);
 };
 
+struct libinput_device_config_palm_detection
+{
+	int refcount;
+	void *user_data;
+	bool disabled;
+};
+
 struct libinput_device_config {
 	struct libinput_device_config_tap *tap;
 	struct libinput_device_config_calibration *calibration;
@@ -509,6 +516,8 @@ struct libinput_device_config {
 	struct libinput_device_config_rotation *rotation;
 	struct libinput_device_config_gesture *gesture;
 	struct libinput_device_config_3fg_drag *drag_3fg;
+	struct libinput_device_config_palm_detection *palm_config;
+
 };
 
 struct libinput_device_group {

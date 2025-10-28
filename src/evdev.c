@@ -2277,6 +2277,16 @@ evdev_device_create(struct libinput_seat *seat, struct udev_device *udev_device)
 	device = zalloc(sizeof *device);
 	device->sysname = steal(&sysname);
 
+	device->base.config.palm_config = zalloc(sizeof(*device->base.config.palm_config));
+
+	device->base.config.palm_config->disabled = true; 
+
+	const char *disable_palm = getenv("LIBINPUT_DISABLE_PALM");
+
+	if (disable_palm && !strcmp(disable_palm, "1") == 0) 
+		device->base.config.palm_config->disabled = true; 
+	
+
 	libinput_device_init(&device->base, seat);
 	libinput_seat_ref(seat);
 
