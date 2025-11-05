@@ -104,7 +104,7 @@ parse_udev_flag(struct evdev_device *device,
 {
 	const char *val;
 	bool b;
-
+	
 	val = udev_device_get_property_value(udev_device, property);
 	if (!val)
 		return false;
@@ -2711,6 +2711,8 @@ evdev_post_scroll(struct evdev_device *device,
 		  enum libinput_pointer_axis_source source,
 		  const struct normalized_coords *delta)
 {
+	double SCROLL_FACTOR = device->scroll.speed_factor;
+
 	const struct normalized_coords *trigger;
 	struct normalized_coords event;
 
@@ -2745,6 +2747,9 @@ evdev_post_scroll(struct evdev_device *device,
 	}
 
 	event = *delta;
+
+	event.x *= SCROLL_FACTOR;
+	event.y *= SCROLL_FACTOR;
 
 	/* We use the trigger to enable, but the delta from this event for
 	 * the actual scroll movement. Otherwise we get a jump once

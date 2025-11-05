@@ -3098,6 +3098,16 @@ tp_scroll_config_natural_get_default(struct libinput_device *device)
 static void
 tp_init_scroll(struct tp_dispatch *tp, struct evdev_device *device)
 {
+	const char *env_scroll = getenv("LIBINPUT_SCROLL_FACTOR");
+	device->scroll.speed_factor = 1.0;
+
+
+	if (env_scroll) 
+	{
+    	double val = atof(env_scroll);
+    	device->scroll.speed_factor = val;
+	}	
+
 	tp_edge_scroll_init(tp, device);
 
 	evdev_init_natural_scroll(device);
@@ -3117,8 +3127,8 @@ tp_init_scroll(struct tp_dispatch *tp, struct evdev_device *device)
 	tp->device->base.config.scroll_method = &tp->scroll.config_method;
 
 	/* In mm for touchpads with valid resolution, see tp_init_accel() */
-	tp->device->scroll.threshold = 0.0;
-	tp->device->scroll.direction_lock_threshold = 5.0;
+	tp->device->scroll.threshold = 0.5; // mudar para env, setar padrão
+	tp->device->scroll.direction_lock_threshold = 2.5; // mudar para env, setar padrão
 }
 
 static int

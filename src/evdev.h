@@ -213,6 +213,7 @@ struct evdev_device {
 	} abs;
 
 	struct {
+		double speed_factor;
 		struct libinput_timer timer;
 		struct libinput_device_config_scroll_method config;
 		/* Currently enabled method, button */
