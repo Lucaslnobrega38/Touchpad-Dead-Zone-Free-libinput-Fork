@@ -1,5 +1,5 @@
 # 🛠️ Build and Installation Guide (Arch Linux Focus)
-This guide details how to compile your custom libinput source code and install it onto your system, replacing the official version. You can also download the compiled binary directly *(see libinput.so.10.13.0)*
+This guide details how to compile your custom libinput source code and install it onto your system, replacing the official version. You can also download the compiled binary directly *(see /libinput.so.10.13.0)*
 
 ## Prerequisites
 Ensure you have the necessary tools for cloning and compiling:
@@ -21,4 +21,5 @@ This step overwrites the official libinput library with your custom version. The
 ## 3. Finalize and Test
 You must restart your session or system for the changes to take effect, as the Wayland compositor loads libinput on startup.
 
-Note: For the complete and most responsible documentation on GitHub, you should include a clear Warning & Backup section and a Rollback Guide using the TTY, as replacing core system libraries carries a risk.
+By default, palm detection is disabled, but you can enable it by setting LIBINPUT_DISABLE_PALM_DETECTION="0" in your env.
+
