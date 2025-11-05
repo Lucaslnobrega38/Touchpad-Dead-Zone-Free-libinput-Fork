@@ -21,5 +21,7 @@ This step overwrites the official libinput library with your custom version. The
 ## 3. Finalize and Test
 You must restart your session or system for the changes to take effect, as the Wayland compositor loads libinput on startup.
 
-By default, palm detection is disabled, but you can enable it by setting LIBINPUT_DISABLE_PALM_DETECTION="0" in your env.
+-By default, palm detection is disabled, but you can enable it by setting LIBINPUT_DISABLE_PALM_DETECTION=0 in your env.
+- To change scrolling speed, put LIBINPUT_SCROLL_FACTOR in your env (standard value = 1).
+
 
