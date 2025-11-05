@@ -2281,10 +2281,10 @@ evdev_device_create(struct libinput_seat *seat, struct udev_device *udev_device)
 
 	device->base.config.palm_config->disabled = true; 
 
-	const char *disable_palm = getenv("LIBINPUT_DISABLE_PALM");
+	const char *disable_palm = getenv("LIBINPUT_DISABLE_PALM_DETECTION");
 
 	if (disable_palm && !strcmp(disable_palm, "1") == 0) 
-		device->base.config.palm_config->disabled = true; 
+		device->base.config.palm_config->disabled = false; 
 	
 
 	libinput_device_init(&device->base, seat);
