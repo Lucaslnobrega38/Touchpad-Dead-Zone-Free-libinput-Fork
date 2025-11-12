@@ -1,5 +1,5 @@
 # 🛠️ Build and Installation Guide (Arch Linux Focus)
-This guide details how to compile your custom libinput source code and install it onto your system, replacing the official version. You can also download the compiled binary directly *(see /libinput.so.10.13.0)*
+This guide details how to compile your custom libinput source code and install it onto your system, replacing the official version. You can also download the compiled binary directly *(see /libinput.so.10.13.0, arch-based only)*
 
 ## Prerequisites
 Ensure you have the necessary tools for cloning and compiling:
